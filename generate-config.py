@@ -1,24 +1,25 @@
 from piawg import piawg
 from pick import pick
-from getpass import getpass
+# from getpass import getpass
 from datetime import datetime
+from dotenv import load_dotenv
+import os 
 
 pia = piawg()
+
+# Load in environment variables from super secret PIA credentials .env file
+load_dotenv()
 
 # Generate public and private key pair
 pia.generate_keys()
 
 # Select region
-title = 'Please choose a region: '
-options = sorted(list(pia.server_list.keys()))
-option, index = pick(options, title)
-pia.set_region(option)
-print("Selected '{}'".format(option))
+pia.set_region(os.environ.get('region'))
 
 # Get token
 while True:
-    username = input("\nEnter PIA username: ")
-    password = getpass()
+    username = os.environ.get('PIA_user')
+    password = os.environ.get('PIA_pass')
     if pia.get_token(username, password):
         print("Login successful!")
         break
@@ -36,7 +37,7 @@ else:
 # Build config
 timestamp = int(datetime.now().timestamp())
 location = pia.region.replace(' ', '-')
-config_file = 'PIA-{}-{}.conf'.format(location, timestamp)
+config_file = 'PIA-wg.conf'
 print("Saving configuration file {}".format(config_file))
 with open(config_file, 'w') as file:
     file.write('[Interface]\n')
