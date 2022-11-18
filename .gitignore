@@ -169,8 +169,6 @@ cython_debug/
 ## Custom ignores
 # PIA
 PIA-*
-*.crt
 *.conf
-*.bak
 
 
