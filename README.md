@@ -79,6 +79,6 @@ And/or visit https://dnsleaktest.com/ to make sure you see a strange new IP and 
 
 
 ## Future Features I Want to Add
-### Auto copy the output PIA-wg.config to /etc/wireguard (how to best/most securely accomplish `su` elevation?)
-### Restrict permissions on output config file (Linux)
-### Add instruction for making a cron job and/or a systemd timer for auto-gen script
+- Auto copy the output PIA-wg.config to /etc/wireguard (how to best/most securely accomplish `su` elevation?)
+- Restrict permissions on output config file (Linux)
+- Add instruction for making a cron job and/or a systemd timer for auto-gen script
