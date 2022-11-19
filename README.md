@@ -27,37 +27,37 @@ The script should generate a `PIA-wg.conf` file that can be imported into the Wi
 
 ## Linux
 
-Install dependencies, clone pia-wg project, and create a virtual Python environment:
+Install dependencies, clone pia-wg project, and create a virtual Python environment
 
 ```
 sudo apt install git wireguard-tools openresolv
-git clone https://github.com/djtroyal/pia-wg [<directory>]
+git clone https://github.com/djtroyal/pia-wg <directory>
 cd <directory>/pia-wg
 python3 -m venv venv
 ./venv/bin/pip install -r requirements.txt
 chmod +x auto-generate-config.sh
-
 ```
 
 ### Running the Utility
 
-#1: Activate the venv and run the Python script
+Following any one of these options will generate a `PIA-wg.conf` file in your `pia-wg` folder:
+
+Option 1. Use the shell script
+```
+./auto-generate-config.sh
+```
+
+Option 2.  Activate the venv and run the Python script
 ```
 source venv/bin/activate
 python3 generate-config.py
 ```
 
-#2: Run the venv'd Python script in one line without having to activate the venv
+Option 3. Run the venv'd Python script in one line without having to activate the venv
 ```
 ./venv/bin/python3 generate-config.py
 ```
 
-#3: Use the shell script
-```
-./auto-generate-config.sh
-```
-
-This will generate a `PIA-wg.conf` file in your `pia-wg` folder.
 
 Copy  `PIA-wg.conf` file to `/etc/wireguard/`, and start the interface
 
@@ -70,12 +70,12 @@ You can shut down the interface with `sudo wg-quick down wg0`
 
 ## Check everything is working
 
-If you have `curl` installed, you can check to see if your WAN (public) IP address has changed from your ISP-provided one using the command line:
+- If you have `curl` installed, you can check to see if your WAN (public) IP address has changed from your ISP-provided one using the command line:
 ```
 curl icanhazip.com
 ```
 
-And/or visit https://dnsleaktest.com/ to make sure you see a strange new IP and check for DNS leaks.
+- And/or visit https://dnsleaktest.com/ to make sure you see a strange new IP and check for DNS leaks.
 
 
 ## Future Features I Want to Add
