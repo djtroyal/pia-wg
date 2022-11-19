@@ -4,7 +4,7 @@ A WireGuard configuration utility for Private Internet Access using hard-coded, 
 
 I find myself needing to regenerate my PIA WireGuard config file every so often when the VPN connection eventually breaks (I assume due to changes on PIA's end -- I think the PIA server endpoints change periodically). Generating a new config seems to remedy this issue.
 
-For Linux users, I've included a `auto-generate-config.sh` shell script which is the executable I point to run periodically as cron job (or `systemd` timer, rather). This can also be more comfortable if Python virtual environments scare you and you'd rather not worry about it.
+For Linux users, I've included a `auto-generate-config.sh` shell script which is the executable I point to run periodically as cron job (or systemd timer, rather). This can also be more comfortable if Python virtual environments scare you and you'd rather not worry about it.
 
 ## Windows
 
@@ -79,6 +79,6 @@ curl icanhazip.com
 
 
 ## Future Features I Want to Add
-- Auto copy the output PIA-wg.config to /etc/wireguard (how to best/most securely accomplish `su` elevation?)
+- Auto copy the output `PIA-wg.config` to `/etc/wireguard` (how to best/most securely accomplish `su` elevation?)
 - Restrict permissions on output config file (Linux)
 - Add instruction for making a cron job and/or a systemd timer for auto-gen script
