@@ -1,6 +1,6 @@
 # pia-wg
 
-A WireGuard configuration utility for Private Internet Access using hard-coded, user-specific parameters as to not require user interaction. This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command.
+A WireGuard configuration utility for Private Internet Access using hard-coded, user-specific parameters as to not require user interaction. This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command. This project was forked from [](https://github.com/hsand/pia-wg)
 
 I find myself needing to regenerate my PIA WireGuard config file every so often when the VPN connection eventually breaks (I assume due to changes on PIA's end -- I think the PIA server endpoints change periodically). Generating a new config seems to remedy this issue.
 
@@ -42,18 +42,18 @@ chmod +x auto-generate-config.sh
 
 Following any one of these options will generate a `PIA-wg.conf` file in your `pia-wg` folder:
 
-Option 1. Use the shell script
+1. Use the shell script
 ```
 ./auto-generate-config.sh
 ```
 
-Option 2.  Activate the venv and run the Python script
+2.  Activate the venv and run the Python script
 ```
 source venv/bin/activate
 python3 generate-config.py
 ```
 
-Option 3. Run the venv'd Python script in one line without having to activate the venv
+3. Run the venv'd Python script in one line without having to activate the venv
 ```
 ./venv/bin/python3 generate-config.py
 ```
@@ -82,3 +82,7 @@ curl icanhazip.com
 - Auto copy the output `PIA-wg.config` to `/etc/wireguard` (how to best/most securely accomplish `su` elevation?)
 - Restrict permissions on output config file (Linux)
 - Add instruction for making a cron job and/or a systemd timer for auto-gen script
+- Generate new config when VPN connection breaks (assumed stale) 
+  - Would need to bring down wg0 service to re-establish WAN connection first
+- Modify `region` parameter in `generate-config.py` to accept a variable-length list of regions
+  - `region` var in `.env` would also have to be formatted as list

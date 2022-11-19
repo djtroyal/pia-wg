@@ -1,6 +1,5 @@
 from piawg import piawg
 from pick import pick
-# from getpass import getpass
 from datetime import datetime
 from dotenv import load_dotenv
 import os 
