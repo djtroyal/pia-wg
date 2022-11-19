@@ -1,16 +1,16 @@
 # pia-wg
-A WireGuard configuration utility for Private Internet Access
 
-This is a Python utility that generates WireGuard configuration files for the Private Internet Access VPN service. This allows you to take advantage of the WireGuard protocol without relying on PIA's proprietary client.
+A WireGuard configuration utility for Private Internet Access using hard-coded, user-specific parameters as to not require user interaction. This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command.
 
-This was created by reverse engineering the [manual-connections](https://github.com/pia-foss/manual-connections) script released by PIA. At this stage, the tool is a quick and dirty attempt to get things working. It could break at any moment if PIA makes changes to their API.
+I find myself needing to regenerate my PIA WireGuard config file every so often when the VPN connection eventually breaks (I assume due to changes on PIA's end -- I think the PIA server endpoints change periodically). Generating a new config seems to remedy this issue.
 
-pia-wg runs on both Windows and Linux.
+For Linux users, I've included a `auto-generate-config.sh` shell script which is the executable I point to run periodically as cron job (or `systemd` timer, rather). This can also be more comfortable if Python virtual environments scare you and you'd rather not worry about it.
 
 ## Windows
-* Install the latest version of [Python 3](https://www.python.org/downloads/windows/)
-  * Select "Add Python to environment variables"
-* Install [WireGuard](https://www.wireguard.com/install/)
+
+- Install the latest version of [Python 3](https://www.python.org/downloads/windows/)
+  - Select "Add Python to environment variables"
+- Install [WireGuard](https://www.wireguard.com/install/)
 
 Open a command prompt and navigate to the directory where you placed the pia-wg utility. The following commands will create a virtual Python environment, install the dependencies, and run the tool.
 
@@ -21,33 +21,64 @@ pip install -r requirements.txt
 python generate-config.py
 ```
 
-Follow the prompts. When finished, you can exit the virtual environment with the `deactivate` command.
+When finished, you can exit the virtual environment with the `deactivate` command.
 
-The script should generate a `.conf` file that can be imported into the WireGuard utility.
+The script should generate a `PIA-wg.conf` file that can be imported into the WireGuard utility.
 
-## Linux (Debian/Ubuntu)
-Install dependencies, clone pia-wg project, and create a virual Python environment:
+## Linux
+
+Install dependencies, clone pia-wg project, and create a virtual Python environment:
+
 ```
-sudo apt install git python3-venv wireguard openresolv
-git clone https://github.com/hsand/pia-wg.git
-cd pia-wg
+sudo apt install git wireguard-tools openresolv
+git clone https://github.com/djtroyal/pia-wg [<directory>]
+cd <directory>/pia-wg
 python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+./venv/bin/pip install -r requirements.txt
+chmod +x auto-generate-config.sh
+
 ```
 
-Run the tool, and follow the prompts
+### Running the Utility
+
+#1: Activate the venv and run the Python script
 ```
+source venv/bin/activate
 python3 generate-config.py
 ```
 
-Copy the `.conf` file to `/etc/wireguard/`, and start the interface
+#2: Run the venv'd Python script in one line without having to activate the venv
 ```
-sudo cp PIA-Iceland-1605054556.conf /etc/wireguard/wg0.conf
+./venv/bin/python3 generate-config.py
+```
+
+#3: Use the shell script
+```
+./auto-generate-config.sh
+```
+
+This will generate a `PIA-wg.conf` file in your `pia-wg` folder.
+
+Copy  `PIA-wg.conf` file to `/etc/wireguard/`, and start the interface
+
+```
+sudo cp PIA-wg.conf /etc/wireguard/wg0.conf
 sudo wg-quick up wg0
 ```
 
 You can shut down the interface with `sudo wg-quick down wg0`
 
 ## Check everything is working
-Visit https://dnsleaktest.com/ to see your new IP and check for DNS leaks.
+
+If you have `curl` installed, you can check to see if your WAN (public) IP address has changed from your ISP-provided one using the command line:
+```
+curl icanhazip.com
+```
+
+And/or visit https://dnsleaktest.com/ to make sure you see a strange new IP and check for DNS leaks.
+
+
+## Future Features I Want to Add
+### Auto copy the output PIA-wg.config to /etc/wireguard (how to best/most securely accomplish `su` elevation?)
+### Restrict permissions on output config file (Linux)
+### Add instruction for making a cron job and/or a systemd timer for auto-gen script
