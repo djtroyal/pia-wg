@@ -124,7 +124,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+#.env # Want to include the template file
 .venv
 env/
 venv/
