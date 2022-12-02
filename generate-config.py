@@ -43,6 +43,11 @@ with open(config_file, 'w') as file:
     file.write('Address = {}\n'.format(pia.connection['peer_ip']))
     file.write('PrivateKey = {}\n'.format(pia.privatekey))
     file.write('DNS = {},{}\n\n'.format(pia.connection['dns_servers'][0], pia.connection['dns_servers'][1]))
+    # Added PostUp/PreDown routing rules to support docker container routing 
+    # Ref: https://www.linuxserver.io/blog/routing-docker-host-and-container-traffic-through-wireguard#routing-a-containers-traffic-through-the-wireguard-container-via)
+    file.write('# Uncomment the below two PostUp and PreDown routing rules if routing containers through WireGuard container\n')
+    file.write('# PostUp = iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE\n')
+    file.write('# PreDown = iptables -t nat -D POSTROUTING -o wg+ -j MASQUERADE\n\n')
     file.write('[Peer]\n')
     file.write('PublicKey = {}\n'.format(pia.connection['server_key']))
     file.write('Endpoint = {}:1337\n'.format(pia.connection['server_ip']))

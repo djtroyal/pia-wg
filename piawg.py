@@ -21,7 +21,8 @@ class piawg:
         self.connection = None
 
     def get_server_list(self):
-        r = requests.get('https://serverlist.piaservers.net/vpninfo/servers/v4')
+        # Use newest version of PIA serverlist ("v6" as of 20221202)
+        r = requests.get('https://serverlist.piaservers.net/vpninfo/servers/v6')
         # Only process first line of response, there's some base64 data at the end we're ignoring
         data = json.loads(r.text.splitlines()[0])
         for server in data['regions']:

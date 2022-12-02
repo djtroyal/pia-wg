@@ -1,35 +1,39 @@
 # Private Internet Access Wireguard Configuration Generator
 This project was forked from https://github.com/hsand/pia-wg, to which this project owes all its thanks.
 
-pia-wg is a Python-based WireGuard configuration utility for Private Internet Access. This fork has been modified from the original to facilitate automating config generation by using fixed PIA user credentials and region as to not require user interaction. It also outputs a fixed config filename for ease of referencing (and not accumulating an archive of stale config files). This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command. 
+pia-wg is a Python-based WireGuard configuration utility for Private Internet Access. 
 
-I find myself needing to regenerate my PIA WireGuard config file every so often when the VPN connection eventually breaks when the VPN endpoints change periodically). Generating a new config seems to remedy this issue.
+This fork has been modified from the original to facilitate automating config generation by using fixed PIA user credentials and region as to not require user interaction. It also outputs a fixed config filename for ease of referencing (and not accumulating an archive of stale config files). This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command. This fork uses the lastest version of the PIA serverlist ("v6" as of 20221202); version "v4" used in the upstream was seeming to cause authentication issues (I assume somewhere in the token generation).
+
+I find myself needing to periodically regenerate my PIA WireGuard config file when the VPN connection eventually breaks when the endpoints change. Generating a new config seems to remedy this issue.
 
 For Linux users, I've included a `auto-generate-config.sh` shell script to simplify the installation procedure and make it easier to regenerage the config on a timer. 
 
 # Installation
 ## Windows
 
-- Install the latest version of [Python 3](https://www.python.org/downloads/windows/)
-  - Select "Add Python to environment variables"
-- Install [WireGuard](https://www.wireguard.com/install/)
+1. Install the latest version of [Python 3](https://www.python.org/downloads/windows/)
+   - Make sure to select "Add Python to environment variables" during installation
+1. Install [WireGuard](https://www.wireguard.com/install/)
+1. Open a command prompt and navigate to the directory where you placed the pia-wg utility.
+1. Edit the `.env` file in the base `pia-wg` directory and input your PIA username, password, and valid VPN region of your choosing.
 
-Open a command prompt and navigate to the directory where you placed the pia-wg utility. The following commands will create a virtual Python environment, install the dependencies, and run the tool.
+The following commands will create a virtual Python environment, install the dependencies, and run the tool.
 
 ```
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 python generate-config.py
+deactivate
 ```
 
-When finished, you can exit the virtual environment with the `deactivate` command.
+- The script should generate a `PIA-wg.conf` file that can be imported into the WireGuard utility.
 
-The script should generate a `PIA-wg.conf` file that can be imported into the WireGuard utility.
 
 ## Linux
 
-Install dependencies, clone pia-wg project, and create a virtual Python environment
+1. Install dependencies, clone pia-wg project, and create a virtual Python environment:
 
 ```
 sudo apt install git wireguard-tools openresolv
@@ -40,9 +44,15 @@ python3 -m venv venv
 chmod +x auto-generate-config.sh
 ```
 
+2. Save your PIA user credentials and region in the (hidden) `.env` file in the `pia-wg` base directory:
+
+Edit the `.env` file in the base `pia-wg` directory and input your PIA username, password, and valid VPN region of your choosing.
+
+3. [Run the utility](https://github.com/djtroyal/pia-wg/edit/master/README.md#running-the-utility)
+
 ### Running the Utility
 
-Following any one of these options will generate a `PIA-wg.conf` file in your `pia-wg` folder:
+Following any one of these options will generate a `PIA-wg.conf` file in your cloned pia-wg folder:
 
 - Use the shell script
 ```
@@ -88,4 +98,7 @@ curl icanhazip.com
   - Would need to bring down wg0 service to re-establish WAN connection first
 - Modify `region` parameter in `generate-config.py` to accept a variable-length list of regions
   - `region` var in `.env` would also have to be formatted as list
+- Auto-populate the `.env` file on first run of `auto-generate-config.sh` script (check if fields are empty first)
+- Incorporate region (server) latency function to auto-select most response region(s)
+  - Also consider adding function to optionally randomize servers upon config generation (could also bake in some latency criteria)
 - Fork and incorporate into official Wireguard Docker container
