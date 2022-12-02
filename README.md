@@ -70,7 +70,7 @@ sudo wg-quick up wg0
 
 You can shut down the interface with `sudo wg-quick down wg0`
 
-## Check everything is working
+## Check if it's Working
 
 - If you have `curl` installed, you can check to see if your WAN (public) IP address has changed from your ISP-provided one using the command line:
 ```
@@ -80,7 +80,7 @@ curl icanhazip.com
 - And/or visit https://dnsleaktest.com/ to make sure you see a strange new IP and check for DNS leaks.
 
 
-## Future Features I Want to Add
+## Speculative To-Dos
 - Auto copy the output `PIA-wg.config` to `/etc/wireguard` (how to best/most securely accomplish `su` elevation?)
 - Restrict permissions on output config file (Linux)
 - Add instruction for making a cron job and/or a systemd timer for auto-gen script
@@ -88,3 +88,4 @@ curl icanhazip.com
   - Would need to bring down wg0 service to re-establish WAN connection first
 - Modify `region` parameter in `generate-config.py` to accept a variable-length list of regions
   - `region` var in `.env` would also have to be formatted as list
+- Fork and incorporate into official Wireguard Docker container
