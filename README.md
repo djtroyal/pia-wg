@@ -43,18 +43,18 @@ chmod +x auto-generate-config.sh
 
 Following any one of these options will generate a `PIA-wg.conf` file in your `pia-wg` folder:
 
-1. Use the shell script
+- Use the shell script
 ```
 ./auto-generate-config.sh
 ```
 
-2.  Activate the venv and run the Python script
+- Activate the venv and run the Python script
 ```
 source venv/bin/activate
 python3 generate-config.py
 ```
 
-3. Run the venv'd Python script in one line without having to activate the venv
+- Run the venv'd Python script in one line without having to activate the venv
 ```
 ./venv/bin/python3 generate-config.py
 ```
