@@ -1,6 +1,7 @@
 # Private Internet Access Wireguard Configuration Generator
+This project was forked from https://github.com/hsand/pia-wg, to which this project owes all its thanks.
 
-A Python-based WireGuard configuration utility for Private Internet Access using fixed PIA user credentials and region as to not require user interaction. This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command. This project was forked from https://github.com/hsand/pia-wg, to which this project owes all its thanks.
+pia-wg is a Python-based WireGuard configuration utility for Private Internet Access. This fork has been modified from the original to facilitate automating config generation by using fixed PIA user credentials and region as to not require user interaction. It also outputs a fixed config filename to This is especially useful as your PIA WireGuard configuration can be refreshed and updated automatically with one command. 
 
 I find myself needing to regenerate my PIA WireGuard config file every so often when the VPN connection eventually breaks when the VPN endpoints change periodically). Generating a new config seems to remedy this issue.
 
